@@ -1,0 +1,35 @@
+title: AutoIt Renamed Execution
+id: b56b5f6f-e687-4c56-9d77-7458b2b07339
+status: experimental
+description: Detects the execution of AutoIt scripts through a renamed autoit executable.
+references:
+    - https://tria.ge/241102-1hhvhawenh/behavioral1
+author: Swachchhanda Shrawan Poudel
+date: 2024-11-22
+tags:
+    - attack.execution
+    - attack.t1059
+    - attack.t1059.010
+    - attack.defense-evasion
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection_metadata:
+        - OriginalFileName:
+              - 'AutoIt.exe'
+              - 'AutoIt2.exe'
+              - 'AutoIt3.exe'
+        - Description|contains|all:
+              - 'AutoIt'
+              - 'script'
+    filter_legit_image:
+        Image|endswith:
+            - 'AutoIt.exe'
+            - 'AutoIt2.exe'
+            - 'AutoIt3.exe'
+    condition: selection_metadata and not filter_legit_image
+falsepositives:
+    - Legitimate use of renamed executables or scripts for system administration
+    - AutoIt scripts renamed for clarity or to work around restrictions
+level: high

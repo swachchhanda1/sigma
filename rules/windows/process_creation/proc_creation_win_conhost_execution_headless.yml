@@ -1,0 +1,23 @@
+title: Headless Execution of Conhost.exe
+id: 4e1d9e3b-99cf-4960-8281-1d44f3b3307a
+status: experimental
+description: Detects suspicious headless execution of `conhost.exe`, indicating potential malicious activity where `conhost.exe` is used without a visible window.
+references:
+    - https://tria.ge/241015-l98snsyeje/behavioral2
+author: Swachchhanda Shrawan Poudel
+date: 2024-11-20
+tags:
+    - attack.defense-evasion
+    - attack.t1059
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        ParentCommandLine|contains|all:
+            - 'conhost'
+            - '--headless'
+    condition: selection
+falsepositives:
+    - Legitimate use of `conhost.exe` in headless mode by system processes
+level: low # Can be moved up after filters for false-positives are added.

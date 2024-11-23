@@ -1,0 +1,41 @@
+title: Malware Masquerading as Documents Executed by MMC Utility
+id: 78f2e5d6-3ae5-4850-8490-c972c3bb091b
+status: experimental
+description: Detects malware masquerading as common document formats (e.g., .pdf, .docx) but loaded by MMC utility, indicating potential malicious behavior.
+references:
+    - https://tria.ge/241015-l98snsyeje/behavioral2
+    - https://www.genians.co.kr/blog/threat_intelligence/facebook
+author: Swachchhanda Shrawan Poudel
+date: 2024-11-20
+tags:
+    - attack.execution
+    - attack.t1059
+    - attack.defense-evasion
+    - attack.t1036.008
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection_image:
+        - Image|endswith: '\mmc.exe'
+        - OriginalFileName: 'MMC.exe'
+    selection_commandline:
+        CommandLine|contains:
+            - '.pdf '
+            - '.docx '
+            - '.doc '
+            - '.pptx '
+            - '.xlsx '
+            - '.xls '
+            - '.rtf '
+            - '.txt '
+            - '.odt '
+            - '.html '
+    # filter_true_extension:
+    #     CommandLine|contains: '.msc' # We can also this logic to get more coverage of mmc executing file which doesn't have .msc exetension, but we won't know about the fps until we test it on production.
+    # condition: selection_image and (selection_commandline or filter_true_extension)
+    condition: all of selection_*
+falsepositives:
+    - Legitimate use of MMC to load valid .msc files without proper extension
+    - Administrative actions involving snap-in files misnamed for clarity
+level: high

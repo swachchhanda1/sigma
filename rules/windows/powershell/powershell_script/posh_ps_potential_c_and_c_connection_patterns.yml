@@ -1,0 +1,37 @@
+title: Suspicious PowerShell Script C&C Communication Patterns
+id: d4a7f3a9-f5a1-4b88-92de-8d6c76b5c5ab
+status: experimental
+description: Detects a PowerShell script attempting to URL with system information like computername appended at the end in the query parameters, possibly a C&C communication pattern .
+references:
+    - https://tria.ge/241102-1hhvhawenh/behavioral1
+author: Swachchhanda Shrawan Poudel
+date: 2024-11-23
+tags:
+    - attack.t1071.001  # Application Layer Protocol
+    - attack.t1059.001  # PowerShell
+    - attack.t1218.010  # Trusted Developer Utilities (IEX abuse)
+logsource:
+    product: windows
+    category: ps_script
+    definition: 'Requirements: Script Block Logging must be enabled'
+detection:
+    selection_network_connection:
+        ScriptBlockText|contains:
+            - '[Net.ServicePointManager]::SecurityProtocol'
+            - '[Net.SecurityProtocolType]::Tls12'
+            - 'Invoke-WebRequest'
+            - 'Invoke-Expression'
+            - 'IEX'
+            - 'IWR'
+            - 'curl'
+            - 'wget'
+    selection_suspicious_patterns:
+        ScriptBlockText|contains:
+            - '$env:computername'
+            - '$env:username'
+            - 'compName='
+            - 'user='
+    condition: all of selection_*
+level: medium
+falsepositives:
+    - Legitimate PowerShell scripts that include similar commands for automation or configuration purposes.

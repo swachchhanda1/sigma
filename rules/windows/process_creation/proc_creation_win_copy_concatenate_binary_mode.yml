@@ -1,0 +1,24 @@
+title: Potential Use of Copy Utility for Payload Assembly
+id: 4a28c6d9-b4ae-4dbb-bb83-d8a3c65fe86d
+status: experimental
+description: Detects the use of copy.exe with /b flag, which could be exploited by attackers to combine binary chunks of a malware payload into a single executable during runtime, potentially bypassing security controls.
+references:
+    - https://tria.ge/241102-1hhvhawenh/behavioral1
+author: Swachchhanda Shrawan Poudel
+date: 2024-11-22
+tags:
+    - attack.defense-evasion
+    - attack.t1027.004
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection_image:
+        Image|endswith: '\cmd.exe'
+        CommandLine|contains: 'copy'
+    selection_flag:
+        CommandLine|contains|windash: '/b'
+    condition: all of selection_*
+falsepositives:
+    - Legitimate administrative or scripting activities
+level: low
