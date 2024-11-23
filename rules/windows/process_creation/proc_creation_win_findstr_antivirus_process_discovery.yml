@@ -1,0 +1,31 @@
+title: Suspicious Use of Findstr to Detect Antivirus Processes
+id: 4d67a2e5-3f84-4ec1-909b-0f8b7d7a93b2
+status: experimental
+description: Detects attempts to use findstr with tasklist to enumerate antivirus-related processes, which could indicate malicious reconnaissance behavior.
+references:
+    - https://tria.ge/241102-1hhvhawenh/behavioral1
+author: Swachchhanda Shrawan Poudel
+date: 2024-11-21
+tags:
+    - attack.discovery
+    - attack.t1057
+    - attack.t1518.001
+logsource:
+    category: process_creation
+    product: windows
+detection:
+    selection:
+        Image|endswith: '\findstr.exe'
+        CommandLine|contains|windash: '-I'
+        CommandLine|contains:
+            - 'avastui'
+            - 'avgui'
+            - 'bdservicehost'
+            - 'nswscsvc'
+            - 'sophoshealth'
+            - 'wrsa'
+            - 'opssvc'
+    condition: selection
+falsepositives:
+    - Legitimate administrative or troubleshooting activities using tasklist and findstr.
+level: low
