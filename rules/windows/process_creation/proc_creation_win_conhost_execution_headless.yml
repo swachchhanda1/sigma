@@ -14,8 +14,9 @@ logsource:
     product: windows
 detection:
     selection:
-        ParentImage|endswith: '\conhost.exe'
-        ParentCommandLine|contains: '--headless'
+        ParentCommandLine|contains|all:
+            - 'conhost'
+            - '--headless'
     condition: selection
 falsepositives:
     - Legitimate use of `conhost.exe` in headless mode by system processes
