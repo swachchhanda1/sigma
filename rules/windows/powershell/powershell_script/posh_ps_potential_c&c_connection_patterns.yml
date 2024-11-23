@@ -1,4 +1,4 @@
-title: Suspicious PowerShell Script Indicating Possible C&C Communication
+title: Suspicious PowerShell Script C&C Communication Patterns
 id: d4a7f3a9-f5a1-4b88-92de-8d6c76b5c5ab
 status: experimental
 description: Detects a PowerShell script attempting to URL with system information like computername appended at the end in the query parameters, possibly a C&C communication pattern .
@@ -16,7 +16,7 @@ logsource:
     definition: 'Requirements: Script Block Logging must be enabled'
 detection:
     selection_network_connection:
-        ScriptBlock|contains:
+        ScriptBlockText|contains:
             - '[Net.ServicePointManager]::SecurityProtocol'
             - '[Net.SecurityProtocolType]::Tls12'
             - 'Invoke-WebRequest'
@@ -26,7 +26,7 @@ detection:
             - 'curl'
             - 'wget'
     selection_suspicious_patterns:
-        ScriptBlock|contains:
+        ScriptBlockText|contains:
             - '$env:computername'
             - '$env:username'
             - 'compName='

@@ -17,12 +17,12 @@ logsource:
 detection:
     selection_metadata:
         - OriginalFileName:
-            - 'AutoIt.exe'
-            - 'AutoIt2.exe'
-            - 'AutoIt3.exe'
+              - 'AutoIt.exe'
+              - 'AutoIt2.exe'
+              - 'AutoIt3.exe'
         - Description|contains|all:
-            - 'AutoIt'
-            - 'script'
+              - 'AutoIt'
+              - 'script'
     filter_legit_image:
         Image|endswith:
             - 'AutoIt.exe'

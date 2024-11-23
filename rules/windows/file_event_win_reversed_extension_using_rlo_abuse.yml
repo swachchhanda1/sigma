@@ -19,7 +19,7 @@ detection:
     selection_rlo_abuse:
         TargetFilename|contains:
             - '\u202e'  # Unicode RLO character
-            - '\?\?\?' #In some case Unicode cannot be represented in unicode
+            - '\?\?\?' # In some case Unicode cannot be represented in unicode
     selection_reversed_extensions:
         TargetFilename|contains:
             - 'fdp.'  # Reversed `.pdf`
