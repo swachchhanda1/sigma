@@ -1,4 +1,4 @@
-title: Renamed AutoIt Execution
+title: AutoIt Renamed Execution
 id: b56b5f6f-e687-4c56-9d77-7458b2b07339
 status: experimental
 description: Detects the execution of AutoIt scripts through a renamed autoit executable.

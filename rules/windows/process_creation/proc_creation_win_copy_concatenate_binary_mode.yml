@@ -1,4 +1,4 @@
-title: Potential use of copy utility for payload assembly
+title: Potential Use of Copy Utility for Payload Assembly
 id: 4a28c6d9-b4ae-4dbb-bb83-d8a3c65fe86d
 status: experimental
 description: Detects the use of copy.exe with /b flag, which could be exploited by attackers to combine binary chunks of a malware payload into a single executable during runtime, potentially bypassing security controls.
